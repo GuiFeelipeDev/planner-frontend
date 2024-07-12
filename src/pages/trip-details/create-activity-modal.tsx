@@ -10,9 +10,15 @@ import {
   ModalTitle,
 } from "../../components/modal"
 import { Input } from "../../components/input"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 interface CreateActivityModalProps {
   closeCreateActivityModal: () => void
+}
+
+interface NewActivity {
+  title: string
+  occurs_at: string
 }
 
 const CreateActivityModal = ({
@@ -20,22 +26,33 @@ const CreateActivityModal = ({
 }: CreateActivityModalProps) => {
   const { tripId } = useParams()
 
-  const createActivity = async (e: FormEvent<HTMLFormElement>) => {
+  const queryClient = useQueryClient()
+
+  const createActivity = useMutation({
+    mutationFn: (activityData: NewActivity) =>
+      api.post(`trips/${tripId}/activities`, activityData),
+    mutationKey: ["createActivity"],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["fetchActivities"] })
+      closeCreateActivityModal()
+    },
+  })
+
+  const handleCreateActivity = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
 
-    const activityData = {
-      title: formData.get("title")?.toString(),
-      occurs_at: formData.get("occurs_at")?.toString(),
+    const title = formData.get("title")?.toString()
+    const occurs_at = formData.get("occurs_at")?.toString()
+
+    if (!title || !occurs_at) return
+
+    const activityData: NewActivity = {
+      title,
+      occurs_at,
     }
 
-    try {
-      await api.post(`trips/${tripId}/activities`, activityData)
-
-      window.document.location.reload()
-    } catch (error) {
-      console.log(error)
-    }
+    createActivity.mutate(activityData)
   }
 
   return (
@@ -48,7 +65,7 @@ const CreateActivityModal = ({
           Todos os convidados podem visualizar as atividades.
         </ModalSubtitle>
       </ModalHeader>
-      <form onSubmit={createActivity} className="space-y-3">
+      <form onSubmit={handleCreateActivity} className="space-y-3">
         <Input name="title" placeholder="Qual a atividade?" icon={<Tag />} />
         <Input
           type="datetime-local"
@@ -56,7 +73,7 @@ const CreateActivityModal = ({
           placeholder="Data e hora da atividade"
           icon={<Calendar />}
         />
-        <Button type="submit" size="full">
+        <Button disabled={createActivity.isPending} type="submit" size="full">
           Salvar atividade
         </Button>
       </form>

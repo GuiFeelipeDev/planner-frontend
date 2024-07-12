@@ -1,9 +1,10 @@
-import { CircleCheck } from "lucide-react"
-import { useCallback, useEffect, useState } from "react"
+import { CircleCheck, Trash2 } from "lucide-react"
 import { useParams } from "react-router-dom"
 import { api } from "../../lib/axios"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useState } from "react"
 
 interface Activity {
   date: string
@@ -16,28 +17,41 @@ interface Activity {
 
 const Activities = () => {
   const { tripId } = useParams()
-  const [tripActivities, setTripActivities] = useState<Activity[] | undefined>(
-    []
-  )
 
-  const fetchTripGuests = useCallback(async () => {
-    try {
-      const res = await api.get(`/trips/${tripId}/activities`)
-      const data = await res.data
+  const { data: activities } = useQuery<Activity[]>({
+    queryKey: ["fetchActivities", tripId],
+    queryFn: () =>
+      api.get(`/trips/${tripId}/activities`).then((res) => res.data.activities),
+  })
 
-      setTripActivities(data.activities)
-    } catch (error) {
-      console.log(error)
-    }
-  }, [tripId])
+  const [activityInCurrentHover, setActivityInCurrentHover] = useState<string>()
 
-  useEffect(() => {
-    fetchTripGuests()
-  }, [fetchTripGuests])
+  const showDeleteButton = (index: string) => {
+    setActivityInCurrentHover(index)
+  }
+
+  const hideDeleteButton = () => {
+    setActivityInCurrentHover("")
+  }
+
+  const queryClient = useQueryClient()
+
+  const deleteActivity = useMutation({
+    mutationFn: (activityId: string) => api.delete("/activities/" + activityId),
+    mutationKey: ["deleteActivity"],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["fetchActivities"] })
+    },
+  })
+
+  const handleDeleteActivity = (activityId: string) => {
+    if (!activityId) return
+    deleteActivity.mutate(activityId)
+  }
 
   return (
-    <div className="space-y-8">
-      {tripActivities?.map((activity) => {
+    <div className="space-y-8 max-h-[87%] h-full overflow-scroll scroll-smooth no-scrollbar">
+      {activities?.map((activity) => {
         return (
           <div key={activity.date} className="space-y-2.5">
             <div className="flex gap-2 items-baseline">
@@ -58,12 +72,22 @@ const Activities = () => {
                 <div
                   key={dayActivity.id}
                   className="px-4 py-2.5 bg-zinc-900 rounded-xl shadow-shape flex items-center gap-3"
+                  onMouseEnter={() => showDeleteButton(dayActivity.id)}
+                  onMouseLeave={hideDeleteButton}
                 >
                   <CircleCheck className="size-5 text-lime-300" />
-                  <span className="text-zinc-100 ">{dayActivity.title}</span>
+                  <span className="text-zinc-100">{dayActivity.title}</span>
                   <span className="text-zinc-400 text-sm ml-auto">
                     {format(dayActivity.occurs_at, "p", { locale: ptBR })}h
                   </span>
+                  {dayActivity.id === activityInCurrentHover && (
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteActivity(dayActivity.id)}
+                    >
+                      <Trash2 className="size-5 text-red-500" />
+                    </button>
+                  )}
                 </div>
               )
             })}
