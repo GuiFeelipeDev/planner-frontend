@@ -1,8 +1,8 @@
 import { CheckCircle, CircleDashed, UserCog } from "lucide-react"
 import { Button } from "../../components/button"
 import { useParams } from "react-router-dom"
-import { useCallback, useEffect, useState } from "react"
 import { api } from "../../lib/axios"
+import { useQuery } from "@tanstack/react-query"
 
 interface Participant {
   id: string
@@ -13,27 +13,20 @@ interface Participant {
 
 const Guests = () => {
   const { tripId } = useParams()
-  const [tripGuests, setTripGuests] = useState<Participant[] | undefined>([])
 
-  const fetchTripGuests = useCallback(async () => {
-    try {
-      const res = await api.get(`/trips/${tripId}/participants`)
-      const data = await res.data
+  const { data: guests } = useQuery<Participant[]>({
+    queryKey: ["fetchGuests", tripId],
+    queryFn: () =>
+      api
+        .get(`/trips/${tripId}/participants`)
+        .then((res) => res.data.participants),
+  })
 
-      setTripGuests(data.participants)
-    } catch (error) {
-      console.log(error)
-    }
-  }, [tripId])
-
-  useEffect(() => {
-    fetchTripGuests()
-  }, [fetchTripGuests])
   return (
     <div className="space-y-6">
       <h2 className="font-bold text-xl">Convidados</h2>
       <div className="space-y-5  overflow-scroll scroll-smooth no-scrollbar">
-        {tripGuests?.map((guest) => {
+        {guests?.map((guest) => {
           return (
             <div
               key={guest.id}
