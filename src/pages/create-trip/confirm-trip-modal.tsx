@@ -5,9 +5,16 @@ import { Button } from "../../components/button"
 interface ConfirmTripModalProps {
   closeConfirmTripModal: () => void
   createTrip: (e: FormEvent<HTMLFormElement>) => void
+  setOwnerName: (ownerName: string) => void
+  setOwnerEmail: (ownerEmail: string) => void
 }
 
-const ConfirmTripModal = ({ closeConfirmTripModal }: ConfirmTripModalProps) => {
+const ConfirmTripModal = ({
+  closeConfirmTripModal,
+  setOwnerName,
+  setOwnerEmail,
+  createTrip,
+}: ConfirmTripModalProps) => {
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
       <div className="w-[640px] rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5">
@@ -33,13 +40,14 @@ const ConfirmTripModal = ({ closeConfirmTripModal }: ConfirmTripModalProps) => {
           </p>
         </div>
 
-        <form className="space-y-3">
+        <form className="space-y-3" onSubmit={createTrip}>
           <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
             <User className="size-5 text-zinc-400" />
             <input
               name="name"
               placeholder="Seu nome completo"
               className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
+              onChange={(e) => setOwnerName(e.target.value)}
             />
           </div>
           <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
@@ -48,6 +56,7 @@ const ConfirmTripModal = ({ closeConfirmTripModal }: ConfirmTripModalProps) => {
               type="email"
               name="email"
               placeholder="Seu email pessoal"
+              onChange={(e) => setOwnerEmail(e.target.value)}
               className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
             />
           </div>
