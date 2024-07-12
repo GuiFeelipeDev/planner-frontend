@@ -7,6 +7,7 @@ import {
   ModalSubtitle,
   ModalTitle,
 } from "../../components/modal"
+import { Input } from "../../components/input"
 
 interface InviteGuestsModalProps {
   closeGuestsModal: () => void
@@ -53,23 +54,18 @@ const InviteGuestsModal = ({
 
       <div className="w-full h-px bg-zinc-800" />
 
-      <form
-        onSubmit={addNewEmailToInvite}
-        className="p-2.5 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2"
-      >
-        <div className="flex gap-2 items-center px-2 flex-1">
-          <AtSign className="size-5 text-zinc-400" />
-          <input
-            type="email"
-            name="email"
-            placeholder="Digite o email do convidado"
-            className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
-          />
-        </div>
-        <Button type="submit">
-          Convidar
-          <Plus className="size-5 " />
-        </Button>
+      <form onSubmit={addNewEmailToInvite}>
+        <Input
+          type="email"
+          name="email"
+          placeholder="Digite o email do convidado"
+          icon={<AtSign />}
+        >
+          <Button type="submit">
+            Convidar
+            <Plus className="size-5 " />
+          </Button>
+        </Input>
       </form>
     </Modal>
   )
