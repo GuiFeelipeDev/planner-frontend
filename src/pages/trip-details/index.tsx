@@ -5,9 +5,13 @@ import { ImportantLinks } from "./important-links"
 import { Guests } from "./guests"
 import { Activities } from "./activities"
 import { DestinationAndDateHeader } from "./destination-and-date-header"
+import { CreateLinkModal } from "./create-link-modal"
+import { Button } from "../../components/button"
 
 const TripDetailsPage = () => {
   const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] =
+    useState<boolean>(false)
+  const [isCreateLinkModalOpen, setIsCreateLinkModalOpen] =
     useState<boolean>(false)
 
   const openCreateActivityModal = () => {
@@ -18,6 +22,14 @@ const TripDetailsPage = () => {
     setIsCreateActivityModalOpen(false)
   }
 
+  const openCreateLinkModal = () => {
+    setIsCreateLinkModalOpen(true)
+  }
+
+  const closeCreateLinkModal = () => {
+    setIsCreateLinkModalOpen(false)
+  }
+
   return (
     <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
       <DestinationAndDateHeader />
@@ -26,19 +38,16 @@ const TripDetailsPage = () => {
         <div className="flex-1 space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-3xl font-semibold">Atividades</h2>
-            <button
-              onClick={openCreateActivityModal}
-              className="bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium flex items-center gap-2 hover:bg-lime-400"
-            >
+            <Button onClick={openCreateActivityModal}>
               <Plus className="size-5" /> Cadastrar atividade
-            </button>
+            </Button>
           </div>
 
           <Activities />
         </div>
 
         <div className="w-80 space-y-6">
-          <ImportantLinks />
+          <ImportantLinks openCreateLinkModal={openCreateLinkModal} />
           <div className="w-full h-px bg-zinc-800" />
 
           <Guests />
@@ -49,6 +58,9 @@ const TripDetailsPage = () => {
         <CreateActivityModal
           closeCreateActivityModal={closeCreateActivityModal}
         />
+      )}
+      {isCreateLinkModalOpen && (
+        <CreateLinkModal closeCreateLinkModal={closeCreateLinkModal} />
       )}
     </div>
   )
