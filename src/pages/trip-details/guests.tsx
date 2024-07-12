@@ -41,7 +41,7 @@ const Guests = () => {
             >
               <div className="space-y-1.5">
                 <span className="block font-medium text-zinc-100">
-                  {guest.name || "Nao confirmado"}
+                  {guest.name || "Não confirmado"}
                 </span>
                 <span className="block text-sm text-zinc-400 ">
                   {guest.email}
