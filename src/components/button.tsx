@@ -1,3 +1,4 @@
+import { Loader2 } from "lucide-react"
 import { ComponentProps, ReactNode } from "react"
 import { tv, VariantProps } from "tailwind-variants"
 
@@ -25,12 +26,24 @@ interface ButtonProps
   extends ComponentProps<"button">,
     VariantProps<typeof buttonVariants> {
   children: ReactNode
+  isLoading?: boolean
 }
 
-const Button = ({ children, variant, size, ...props }: ButtonProps) => {
+const Button = ({
+  children,
+  variant,
+  size,
+  isLoading,
+  ...props
+}: ButtonProps) => {
   return (
-    <button {...props} className={buttonVariants({ variant, size })}>
+    <button
+      {...props}
+      disabled={isLoading}
+      className={buttonVariants({ variant, size })}
+    >
       {children}
+      {isLoading && <Loader2 className="animate-spin" />}
     </button>
   )
 }
