@@ -7,12 +7,14 @@ import { Activities } from "./activities"
 import { DestinationAndDateHeader } from "./destination-and-date-header"
 import { CreateLinkModal } from "./create-link-modal"
 import { Button } from "../../components/button"
+import { AddParticipantModal } from "./add-participant-modal"
 
 const TripDetailsPage = () => {
   const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] =
-    useState<boolean>(false)
-  const [isCreateLinkModalOpen, setIsCreateLinkModalOpen] =
-    useState<boolean>(false)
+    useState(false)
+  const [isCreateLinkModalOpen, setIsCreateLinkModalOpen] = useState(false)
+  const [isAddParticipantModalOpen, setIsAddParticipantModalOpen] =
+    useState(false)
 
   const openCreateActivityModal = () => {
     setIsCreateActivityModalOpen(true)
@@ -28,6 +30,14 @@ const TripDetailsPage = () => {
 
   const closeCreateLinkModal = () => {
     setIsCreateLinkModalOpen(false)
+  }
+
+  const openAddParticipantModal = () => {
+    setIsAddParticipantModalOpen(true)
+  }
+
+  const closeAddParticipantModal = () => {
+    setIsAddParticipantModalOpen(false)
   }
 
   return (
@@ -50,7 +60,7 @@ const TripDetailsPage = () => {
           <ImportantLinks openCreateLinkModal={openCreateLinkModal} />
           <div className="w-full h-px bg-zinc-800" />
 
-          <Guests />
+          <Guests openAddParticipantModal={openAddParticipantModal} />
         </div>
       </main>
 
@@ -61,6 +71,11 @@ const TripDetailsPage = () => {
       )}
       {isCreateLinkModalOpen && (
         <CreateLinkModal closeCreateLinkModal={closeCreateLinkModal} />
+      )}
+      {isAddParticipantModalOpen && (
+        <AddParticipantModal
+          closeAddParticipantModal={closeAddParticipantModal}
+        />
       )}
     </div>
   )
