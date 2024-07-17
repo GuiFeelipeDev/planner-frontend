@@ -24,7 +24,7 @@
 </p>
 
 <p align="center">
-    <img src="./.github/thumbnail.png" alt="Image Example" width="480px">
+    <img src="./.github/Thumbnail.png" alt="Image Example" width="480px">
 </p>
 
 <h2 id="started">📌 About</h2>
