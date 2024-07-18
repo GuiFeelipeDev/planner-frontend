@@ -3,7 +3,7 @@
 [VITE__BADGE]: https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white
 [PROJECT__BADGE]: https://img.shields.io/badge/📱Visit_this_project-000?style=for-the-badge&logo=project
 [REACT_QUERY]: https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white
-[PROJECT__URL]: ""
+[PROJECT__URL]: "planner-refactored.vercel.app"
 [BACKEND__URL]: "https://github.com/GuiFeelipeDev/nlw-journey-backend"
 [NODE_BADGE]: https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white
 
