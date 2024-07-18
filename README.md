@@ -43,8 +43,6 @@ This project has a backend dependency. To run it, you will need to clone both th
 
 <h3>Prerequisites</h3>
 
-Here you list all prerequisites necessary for running your project.
-
 - [NodeJS (v20+)](https://nodejs.org/pt/download/package-manager)
 - [NPM (v10+)](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
@@ -55,8 +53,6 @@ git clone https://github.com/GuiFeelipeDev/planner-frontend.git
 ```
 
 <h3>Starting</h3>
-
-How to start your project
 
 ```bash
 cd planner-frontend
@@ -72,7 +68,7 @@ npm run dev
 
 <h2 id="colab">🤝 Collaborators</h2>
 
-Special thank you for all people that contributed for this project.
+Special thanks to Diego from Rocketseat, who provided the starter code for this app as part of the NLW Journey.
 
 <table>
   <tr>
