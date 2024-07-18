@@ -50,7 +50,7 @@ const Activities = () => {
   }
 
   return (
-    <div className="space-y-8 max-h-[87%] h-full overflow-scroll scroll-smooth no-scrollbar">
+    <div className="space-y-8 max-h-[87%] min-h-full overflow-scroll scroll-smooth no-scrollbar">
       {activities?.map((activity) => {
         return (
           <div key={activity.date} className="space-y-2.5">
