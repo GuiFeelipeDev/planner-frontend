@@ -39,7 +39,7 @@ Welcome to Plann.er, a travel planning app. With this app, you can create and ma
 
 This project has a backend dependency. To run it, you will need to clone both this repository and the backend repository from the link below.
 
-- [Backend]("https://github.com/GuiFeelipeDev/nlw-journey-backend")
+- [Backend](https://github.com/GuiFeelipeDev/nlw-journey-backend)
 
 <h3>Prerequisites</h3>
 
