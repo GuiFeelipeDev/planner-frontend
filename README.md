@@ -50,8 +50,6 @@ Here you list all prerequisites necessary for running your project.
 
 <h3>Cloning</h3>
 
-How to clone your project
-
 ```bash
 git clone https://github.com/GuiFeelipeDev/planner-frontend.git
 ```
